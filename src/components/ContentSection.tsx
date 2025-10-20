@@ -1,4 +1,4 @@
-import { SectionData } from "@/app/typeEj";
+import { SectionData } from "@/types/typeEj";
 import { CodeBlock } from "./code-block";
 
 const ContentSection = ({ section }: { section: SectionData }) => (

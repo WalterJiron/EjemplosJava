@@ -1,4 +1,4 @@
-import { SectionData } from "./typeEj";
+import { SectionData } from "../types/typeEj";
 
 const SECTIONS_DATA: SectionData[] = [
     {
