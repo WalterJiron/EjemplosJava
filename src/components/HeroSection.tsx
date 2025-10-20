@@ -2,24 +2,16 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 const TAGS = ["Enums", "Formato", "Random", "Recursividad"];
 
 const HeroSection = () => {
   const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const scrollToSection = (sectionId: string) => {
     try {
-      if (!isClient) return;
-
       // Actualizar la URL sin recargar la página
-      window.history.pushState(null, "", `/#${sectionId}`);
+      router.push(`/#${sectionId}`, { scroll: false });
 
       const element = document.getElementById(sectionId);
       if (element) {
@@ -34,6 +26,8 @@ const HeroSection = () => {
       }
     } catch (error) {
       console.error("Error al navegar a la sección:", error);
+      // Fallback: scroll básico y actualización de URL
+      router.push(`/#${sectionId}`, { scroll: false });
       const element = document.getElementById(sectionId);
       element?.scrollIntoView();
     }
@@ -44,14 +38,6 @@ const HeroSection = () => {
       event.preventDefault();
       scrollToSection(sectionId);
     }
-  };
-
-  // Mapeo de secciones
-  const sectionMap: { [key: string]: string } = {
-    Enums: "enum",
-    Formato: "formato",
-    Random: "random",
-    Recursividad: "recursividad",
   };
 
   return (
@@ -71,6 +57,13 @@ const HeroSection = () => {
           <h1 className="text-5xl sm:text-7xl font-bold text-balance">
             <span className="text-foreground"> {"Tecnicas de "}</span>
             <span className="text-primary glow-text">Java</span>
+            <Image
+              src="/java-logo.png"
+              alt="Java Logo"
+              width={60}
+              height={60}
+              className="inline-block ml-8 align-middle"
+            />
           </h1>
           <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto text-balance">
             Explora los conceptos de Java con un enfoque en las buenas prácticas
@@ -78,6 +71,13 @@ const HeroSection = () => {
           </p>
           <div className="flex gap-2 justify-center flex-wrap">
             {TAGS.map((tag, index) => {
+              const sectionMap: { [key: string]: string } = {
+                Enums: "enum",
+                Formato: "formato",
+                Random: "random",
+                Recursividad: "recursividad",
+              };
+
               const sectionId = sectionMap[tag];
 
               return (
